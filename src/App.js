@@ -80,18 +80,17 @@ function App() {
           setTurnOn(false);
         } else {
           setPeakTime(false);
-        }
-
-        if(dist < 10) {
-          if (mqttClient && !turnOn) {
-            mqttClient.publish(TOPIC_PUBLISH, "OFF");
+          if(dist < 10) {
+            if (mqttClient && !turnOn) {
+              mqttClient.publish(TOPIC_PUBLISH, "OFF");
+            }
+            setTurnOn(true);
+          } else if (dist > 200) {
+            if (mqttClient && turnOn) {
+              mqttClient.publish(TOPIC_PUBLISH, "ON");
+            }
+            setTurnOn(false);
           }
-          setTurnOn(true);
-        } else if (dist > 200) {
-          if (mqttClient && turnOn) {
-            mqttClient.publish(TOPIC_PUBLISH, "ON");
-          }
-          setTurnOn(false);
         }
 
       } catch (e) {
