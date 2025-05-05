@@ -16,6 +16,8 @@ function App() {
   const [turnOn, setTurnOn] = useState(true);
   const [usageDetails, setUsageDetails] = useState([0, 0, 0, 0, 0, 0]);
   const [peakTime, setPeakTime] = useState(false);
+  const [waterLevel, setWaterLevel] = useState(0);
+  const maxDist = 50.0;
 
   useEffect(() => {
     const options = {
@@ -71,6 +73,12 @@ function App() {
         setMessages(updatedMessages);
         localStorage.setItem('mqttMessages', JSON.stringify(updatedMessages));
 
+        if(dist < maxDist) {
+          setWaterLevel((dist/maxDist)*100);
+        } else {
+          setWaterLevel(0);
+        }
+
         const usgIdx = usageDetails.indexOf(Math.max(...usageDetails));
         if(usgIdx === ((seconds/10)+1)%6) {
           setPeakTime(true);
@@ -85,7 +93,7 @@ function App() {
               mqttClient.publish(TOPIC_PUBLISH, "OFF");
             }
             setTurnOn(true);
-          } else if (dist > 200) {
+          } else if (dist > 0.4*maxDist) {
             if (mqttClient && turnOn) {
               mqttClient.publish(TOPIC_PUBLISH, "ON");
             }
@@ -127,12 +135,14 @@ function App() {
       <button className='red-btn' onClick={clearMessages}>Clear All</button>
       <p>{peakTime ? "It is peak time" : "It is not peak time"}</p>
       <p><b>{"Motor status: "}</b>{(turnOn ? "Off" : "On") + (!turnOn ? (peakTime ? " (Due to peak usage hours)" : " (Due to low water level)"):"")}</p>
+      <p>{"Max distance: " + maxDist}</p>
 
       <div className="table-container">
         <table>
           <thead>
             <tr>
               <th>Distance (cm)</th>
+              <th>Water Level (%)</th>
               <th>Time</th>
               <th>Date</th>
             </tr>
@@ -141,6 +151,7 @@ function App() {
             {messages.map((msg, idx) => (
               <tr key={idx}>
                 <td>{msg.dist}</td>
+                <td>{waterLevel + "%"}</td>
                 <td>{msg.time}</td>
                 <td>{msg.date}</td>
               </tr>
