@@ -108,7 +108,7 @@ function App() {
     return () => {
       mqttClient.end();
     };
-  }, [messages, usageDetails, turnOn]); // Dependency on `messages` to re-run the effect when state updates
+  }, [messages, usageDetails, turnOn, waterLevel]); // Dependency on `messages` to re-run the effect when state updates
 
   const sendCommand = () => {
     if (client) {
