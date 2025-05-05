@@ -64,19 +64,17 @@ function App() {
           return updated;               // Set new state
         });
 
-        if(dist < maxDist) {
-          setWaterLevel(((maxDist-dist)/maxDist)*100);
-        } else {
-          setWaterLevel(0);
-        }
-
-        // Save new message to state
+        let calculatedWaterLevel = dist < maxDist ? ((maxDist - dist) / maxDist) * 100 : 0;
+        setWaterLevel(calculatedWaterLevel);
+        
+        // Save new message to state using the calculated value
         const newMessage = { 
           dist: dist, 
-          waterLevel: waterLevel, // safe if waterLevel is a primitive (number/string), not an object
+          waterLevel: calculatedWaterLevel.toFixed(2), 
           date: date,
           time: time
         };
+
 
         const updatedMessages = [newMessage, ...messages];
 
