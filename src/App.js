@@ -74,7 +74,7 @@ function App() {
         const usgIdx = usageDetails.indexOf(Math.max(...usageDetails));
         if(usgIdx === ((seconds/10)+1)%6) {
           setPeakTime(true);
-          if (mqttClient) {
+          if (mqttClient && turnOn) {
             mqttClient.publish(TOPIC_PUBLISH, "ON");
           }
           setTurnOn(false);
@@ -83,12 +83,12 @@ function App() {
         }
 
         if(dist < 10) {
-          if (mqttClient) {
+          if (mqttClient && !turnOn) {
             mqttClient.publish(TOPIC_PUBLISH, "OFF");
           }
           setTurnOn(true);
         } else if (dist > 200) {
-          if (mqttClient) {
+          if (mqttClient && turnOn) {
             mqttClient.publish(TOPIC_PUBLISH, "ON");
           }
           setTurnOn(false);
