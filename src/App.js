@@ -63,21 +63,20 @@ function App() {
           updated[seconds/10] += Math.min(250, dist);
           return updated;               // Set new state
         });
-        
-
-        // Save new message to state
-        const newMessage = { dist, date, time };
-        const updatedMessages = [newMessage, ...messages];
-
-        // Update the state and store it in localStorage
-        setMessages(updatedMessages);
-        localStorage.setItem('mqttMessages', JSON.stringify(updatedMessages));
 
         if(dist < maxDist) {
           setWaterLevel((dist/maxDist)*100);
         } else {
           setWaterLevel(0);
         }
+
+        // Save new message to state
+        const newMessage = { dist, waterLevel, date, time };
+        const updatedMessages = [newMessage, ...messages];
+
+        // Update the state and store it in localStorage
+        setMessages(updatedMessages);
+        localStorage.setItem('mqttMessages', JSON.stringify(updatedMessages));
 
         const usgIdx = usageDetails.indexOf(Math.max(...usageDetails));
         if(usgIdx === ((seconds/10)+1)%6) {
@@ -151,7 +150,7 @@ function App() {
             {messages.map((msg, idx) => (
               <tr key={idx}>
                 <td>{msg.dist}</td>
-                <td>{waterLevel + "%"}</td>
+                <td>{msg.waterLevel + "%"}</td>
                 <td>{msg.time}</td>
                 <td>{msg.date}</td>
               </tr>
