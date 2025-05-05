@@ -71,7 +71,13 @@ function App() {
         }
 
         // Save new message to state
-        const newMessage = { dist, waterLevel, date, time };
+        const newMessage = { 
+          dist: dist, 
+          waterLevel: waterLevel.toString(), // safe if waterLevel is a primitive (number/string), not an object
+          date: date,
+          time: time
+        };
+
         const updatedMessages = [newMessage, ...messages];
 
         // Update the state and store it in localStorage
