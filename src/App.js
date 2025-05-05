@@ -65,7 +65,7 @@ function App() {
         });
 
         if(dist < maxDist) {
-          setWaterLevel((dist/maxDist)*100);
+          setWaterLevel(((maxDist-dist)/maxDist)*100);
         } else {
           setWaterLevel(0);
         }
@@ -73,7 +73,7 @@ function App() {
         // Save new message to state
         const newMessage = { 
           dist: dist, 
-          waterLevel: waterLevel.toString(), // safe if waterLevel is a primitive (number/string), not an object
+          waterLevel: waterLevel, // safe if waterLevel is a primitive (number/string), not an object
           date: date,
           time: time
         };
@@ -140,7 +140,7 @@ function App() {
       <button className='red-btn' onClick={clearMessages}>Clear All</button>
       <p>{peakTime ? "It is peak time" : "It is not peak time"}</p>
       <p><b>{"Motor status: "}</b>{(turnOn ? "Off" : "On") + (!turnOn ? (peakTime ? " (Due to peak usage hours)" : " (Due to low water level)"):"")}</p>
-      <p>{"Max distance: " + maxDist}</p>
+      <p><b>{"Max distance: "}</b> {maxDist}</p>
 
       <div className="table-container">
         <table>
