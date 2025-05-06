@@ -40,7 +40,7 @@ function App() {
 
       try {
         const parsed = JSON.parse(msg);
-        const dist = parsed.distance - 2.23 || 'Invalid';
+        const dist = parsed.distance || 'Invalid';
         const timestamp = parsed.timestamp || 'Unknown';
       
         const dateObj = new Date(timestamp.replace(' ', 'T')); // Convert to Date object
