@@ -17,7 +17,7 @@ function App() {
   const [usageDetails, setUsageDetails] = useState([0, 0, 0, 0, 0, 0]);
   const [peakTime, setPeakTime] = useState(false);
   const [waterLevel, setWaterLevel] = useState(0);
-  const maxDist = 50.0;
+  const maxDist = 5.0;
 
   useEffect(() => {
     const options = {
