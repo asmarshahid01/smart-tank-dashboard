@@ -17,7 +17,7 @@ function App() {
   const [usageDetails, setUsageDetails] = useState([0, 0, 0, 0, 0, 0]);
   const [peakTime, setPeakTime] = useState(false);
   const [waterLevel, setWaterLevel] = useState(0);
-  const maxDist = 5.0;
+  const maxDist = 4.0;
 
   useEffect(() => {
     const options = {
@@ -91,12 +91,12 @@ function App() {
           setTurnOn(false);
         } else {
           setPeakTime(false);
-          if(dist < 10) {
+          if(dist < 0.9*maxDist) {
             if (mqttClient && !turnOn) {
               mqttClient.publish(TOPIC_PUBLISH, "OFF");
             }
             setTurnOn(true);
-          } else if (dist > 0.4*maxDist) {
+          } else if (dist > 0.2*maxDist) {
             if (mqttClient && turnOn) {
               mqttClient.publish(TOPIC_PUBLISH, "ON");
             }
