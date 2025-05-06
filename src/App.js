@@ -60,7 +60,7 @@ function App() {
 
         setUsageDetails(prev => {
           const updated = [...prev];     // Make a copy
-          updated[seconds/10] += Math.min(250, dist);
+          updated[seconds/10] += Math.min(maxDist, dist);
           return updated;               // Set new state
         });
 
